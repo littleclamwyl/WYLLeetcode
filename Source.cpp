@@ -998,7 +998,7 @@ int main() {
 
 /* 23 1838 最高频的元素的可能的次数 */
 
-#if 0
+#if 1
 class Solution {
 public:
 
@@ -1098,6 +1098,7 @@ int main() {
 
 
 /* 29 104 二叉树的最大深度 */
+
 #if 0
 
 struct TreeNode
@@ -1142,4 +1143,20 @@ int main() {
 
 #endif
 
+
+
+
+
+
+
+#if 0
+
+int main() {
+
+    std::cout << "Tomorrow will be better" << std::endl;
+
+    return 0;
+}
+
+#endif
 
