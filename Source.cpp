@@ -1150,10 +1150,12 @@ int main() {
 
 
 
-
 int main() {
 
     std::cout << "Sunday will be better" << std::endl;
+    std::cout << "Tomorrow will be better" << std::endl;
+    std::cout << "Monday will be better" << std::endl;
+
 
     return 0;
 }
