@@ -699,7 +699,7 @@ int main() {
 
 /* 11 167 两数之和--有序数组 */
 // 常量级额外空间
-#if 1
+#if 0
 class Solution {
 public:
     std::vector<int> twoSum(std::vector<int>& nums, int target) {
@@ -1096,4 +1096,50 @@ int main() {
 
 /* 28 116 填充每个节点的下一个右侧节点指针 */
 
+
 /* 29 104 二叉树的最大深度 */
+#if 0
+
+struct TreeNode
+{
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) :val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int res = 0;
+    int depth = 0;
+    int maxDepth(TreeNode* root) {
+
+        traverse(root);
+
+        return res;
+    }
+
+
+    void traverse(TreeNode* root) {
+
+        if (root == nullptr) {
+            res = std::max(res, depth);
+            return;
+        }
+
+        depth++;
+        traverse(root->left);
+        traverse(root->right);
+        depth--;
+
+    }
+};
+
+int main() {
+
+}
+
+
+#endif
+
+
