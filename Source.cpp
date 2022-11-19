@@ -998,7 +998,7 @@ int main() {
 
 /* 23 1838 最高频的元素的可能的次数 */
 
-#if 1
+#if 0
 class Solution {
 public:
 
@@ -1149,14 +1149,14 @@ int main() {
 
 
 
-#if 0
+
 
 int main() {
 
-    std::cout << "Tomorrow will be better" << std::endl;
+    std::cout << "Sunday will be better" << std::endl;
 
     return 0;
 }
 
-#endif
+
 
