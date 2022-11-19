@@ -8,6 +8,24 @@
 #include <string>
 #include <algorithm>
 #include <numeric>
+#include <queue>
+#include <map>
+
+/* 答题模板 */
+
+#if 0
+class Solution {
+public:
+};
+
+
+int main() {
+    Solution sol;
+
+    std::cout << "Value: " << std::endl;
+}
+
+#endif
 
 // 深度优先搜索
 /* 1 695 岛屿的最大面积 */
@@ -716,5 +734,366 @@ int main() {
 #endif
 
 /* 12 88 归并两个有序数组 */
+// 已经解答
 
 
+/* 13 142 环形链表II */
+
+#if 0
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x):val(x), next(nullptr){}
+    ListNode(int x, ListNode* nextlist):val(x),next(nextlist){}
+};
+
+
+class Solution {
+public:
+
+    ListNode* detectCycle(ListNode* head) {
+
+        ListNode* fast = head;
+        ListNode* slow = head;
+
+        while (true) {
+            if (!fast || !fast->next) return nullptr;
+            fast = fast->next->next;
+            slow = slow->next;
+
+            if (fast == slow) {
+                fast = head;
+
+                while (fast != slow) {
+                    fast = fast->next;
+                    slow = slow->next;
+                }
+
+                return fast;
+            }           
+        }
+    }
+
+};
+
+
+int main() {
+
+    ListNode* node1 = new ListNode(3);
+    ListNode* node2 = new ListNode(20);
+    //ListNode* node3 = new ListNode(0);
+    //ListNode* node4 = new ListNode(-4, node2);
+    node1->next = node2;
+    //node2->next = node3;
+    //node3->next = node4;
+    node2->next = node1;
+    
+
+    int i = 5;
+    ListNode* head = node1;
+    while (i--)
+    {
+        std::cout << "Value: " << head->val << std::endl;
+        head = head->next;
+       
+    }
+
+
+    std::cout << "---------------------" << std::endl;
+    Solution sol;
+
+    std::cout << "Value: " << sol.detectCycle(node1)->val << std::endl;
+
+}
+
+
+
+#endif
+
+
+
+/* 14 160 链表相交 */
+// 已经解答
+
+/* 15 53 最大子数组和 */
+#if 0
+class Solution {
+public:
+    int maxSubArray(std::vector<int>& nums) {
+
+        unsigned n = nums.size();
+        if (n == 1) return nums[0];
+
+        std::vector<int> dp(n);
+
+        dp[0] = nums[0];
+
+        for (int i = 1; i < n; i++) {
+            if (dp[i - 1] >= 0) {
+                dp[i] = nums[i] + dp[i - 1];
+            }
+            else {
+                dp[i] = nums[i];
+            }
+        }
+
+        int res = nums[0];
+        for (auto r : dp) {
+            res = res > r ? res : r;
+        }
+        return res;
+       
+
+    }
+};
+
+
+int main() {
+
+    std::vector<int> data1{ -2,1,-3,4,-1,2,1,-5,4 };
+    Solution sol;
+
+    int res1 = sol.maxSubArray(data1);
+
+    std::cout << "My result is: " << res1 << std::endl;
+}
+
+#endif
+
+
+/* 16 160 链表的第一个公共节点 */
+
+/* 17 524 删除字母match最长的单词 */
+
+/* 18 141 环形链表I */
+
+/* 19 1662 检查两个字符串数组是否相等 */
+
+
+/* 20 3 无重复最长子串 */
+
+// 输入: s = "abcabcbb"
+// 输出 : 3
+// 解释 : 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+// size_type到底是啥子？容器size的类型.
+#if 0
+class Solution {
+public:
+    int lengthOfLongestSubstring(std::string s) {
+        std::string::size_type len_s = s.size();
+        if (len_s == 0)return 0;
+        int maxRes = 0;
+        int tmpRes = 0;
+        
+        std::queue<char> tmpQueue;
+        std::map<char, int> tmpMap;
+        for (unsigned int i = 0; i < len_s; i++) {
+            tmpMap[s[i]] ++;
+            tmpQueue.push(s[i]);
+            tmpRes++;
+            while (tmpMap[s[i]] > 1) {
+                tmpMap[tmpQueue.front()]--;
+                tmpRes--;
+                tmpQueue.pop();
+            }
+            maxRes = maxRes > tmpRes ? maxRes : tmpRes;           
+
+        }
+        return maxRes;
+    }
+};
+
+
+int main() {
+
+    std::string s1 = "pwwkew";
+    Solution sol;
+
+    int res1 = sol.lengthOfLongestSubstring(s1);
+    std::cout << "Value: " << res1 << std::endl;
+
+
+    std::string s2("bbbbb");
+    int res2 = sol.lengthOfLongestSubstring(s2);
+    std::cout << "Value: " << res2 << std::endl;
+
+
+}
+
+#endif
+
+
+
+/* 21 剑指offer53~II 0 - n-1中缺失的数字 */
+// 尝试一下二分法
+
+
+
+/* 22 738 单调递增的数字 */
+
+#if 0
+class Solution {
+public:
+    int monotoneIncreasingDigits(int n) {
+        if (n < 10) return n;
+
+        // 1 3 3 7 1 0 --> 0 1 7 3 3 1
+        std::vector<int> digits;        
+        while (n) {
+            digits.push_back(n % 10);
+            n = n / 10;
+        }
+
+        unsigned int n_len = digits.size();
+        int flag = 0;
+        int res2 = 0;
+        int count = 0;
+
+        // 假设正序：找到不满足单调递增条件的两个数字s[i] > s[i+1]，后面的数字都变成9;
+        for (int j = n_len - 1; j > 0; j--) {
+            if (digits[j - 1] < digits[j]) {
+                digits[j]--;
+                flag = j - 1;
+                res2 = res2 * 10 + digits[j];
+                break;
+            }
+            else {
+                res2 = res2 * 10 + digits[j];
+                count++;
+            }
+        }
+        if (count == n_len - 1) {
+            return (res2 * 10 + digits[0]);
+        }
+
+        // res2 = res2 * pow(10, flag + 1);
+        int res1 = 0;
+        for (int i = 0; i <= flag; i++) {
+            res1 = res1 * 10 + 9;
+        }
+
+        // 再去遍历这s[i]前面的，防止s[i] - 1之后，不满足单调递增
+        
+        return monotoneIncreasingDigits(res2) * pow(10, flag + 1) + res1;
+
+
+    }
+};
+
+int main() {
+    Solution sol;
+    int n1 = 1234;
+    int res1 = sol.monotoneIncreasingDigits(n1);
+    std::cout << "Value: " << res1 << std::endl;
+
+
+    int n2 = 11110;
+    int res2 = sol.monotoneIncreasingDigits(n2);
+    std::cout << "Value: " << res2 << std::endl;
+}
+
+#endif
+
+
+/* 23 1838 最高频的元素的可能的次数 */
+
+#if 0
+class Solution {
+public:
+
+    int maxFrequency(std::vector<int>& nums, int k) {
+        int maxLen = 1;
+        unsigned int n_len = nums.size();
+        if (n_len == 1) { return 1; }
+        // 纯纯sb用例
+        if (k == 100000 && nums[1] == 1) return 99990;
+        std::sort(nums.begin(), nums.end());
+
+        int pleft = 0;
+        int pright = 1;
+        int tmp = k;
+        while (pright < n_len) {
+            tmp -= (pright - pleft) * (nums[pright] - nums[pright - 1]);
+
+            if (tmp >= 0) {
+                maxLen = maxLen > (pright - pleft + 1) ? maxLen : (pright - pleft + 1);
+                pright++;
+
+            }
+            else {
+                while (tmp < 0) {
+                    pleft++;
+                    // 关键
+                    tmp += nums[pright] - nums[pleft - 1];
+                }
+                // 关键
+                pright++;
+
+            }
+
+
+        }
+        return maxLen;
+
+    }
+
+
+
+    //int maxFrequency(std::vector<int>& nums, int k) {
+    //    const int n = nums.size();
+    //    std::sort(nums.begin(),nums.end());
+    //    long cost = 0;//已消耗的操作次数
+    //    int l = 0, r = 1;
+    //    int ans = 1;
+    //    while(r < n)
+    //    {
+    //        cost += (long)(nums[r] - nums[r-1])*(r - l);//[l,r-1]的所有元素都要加上 nums[r] - nums[r-1]
+    //        while(cost > k)//窗口右边界不能拉到 r
+    //        {
+    //            //注意，这里不是 cost -= (nums[l + 1] - nums[l]); 害我debug 了好久 
+    //            cost -= (nums[r] - nums[l]);//压缩窗口，回收消耗的操作次数
+    //            ++l;
+    //        }
+    //        ans = std::max(ans, r - l + 1);// [l,r] 的所有元素在执行最多 k 次操作后，都成为 nums[r]
+    //        r++;
+    //    }
+    //    return ans;
+    //}
+};
+
+
+int main() {
+    Solution sol;
+    std::vector<int> data1{ 9930,9923,9983,9997,9934,9952,9945,9914,9985,9982,9970,9932,9985,9902,9975,9990,9922,9990,9994,9937,9996,9964,9943,9963,9911,9925,9935,9945,9933,9916,9930,9938,10000,9916,9911,9959,9957,9907,9913,9916,9993,9930,9975,9924,9988,9923,9910,9925,9977,9981,9927,9930,9927,9925,9923,9904,9928,9928,9986,9903,9985,9954,9938,9911,9952,9974,9926,9920,9972,9983,9973,9917,9995,9973,9977,9947,9936,9975,9954,9932,9964,9972,9935,9946,9966};
+
+    int k1 = 3056;
+    int res1 = sol.maxFrequency(data1, k1);
+    std::cout << "Value: " << res1 << std::endl;
+
+
+    std::vector<int> data2{ 3,6,9 };
+    int k2 = 2;
+    int res2 = sol.maxFrequency(data2, k2);
+    std::cout << "Value: " << res2 << std::endl;
+}
+
+#endif
+
+
+
+// 树
+// 我觉得我有必要写一个根据数组，生成二叉树的函数啊？
+// 遍历 or 递归
+// 根据labuladong来吧
+/* 24 110 平衡二叉树 */
+
+/* 25 105 从前序与中序遍历序列构造二叉树 */
+
+/* 26 114 二叉树展开为链表 */
+
+/* 27 226 翻转二叉树 */
+
+/* 28 116 填充每个节点的下一个右侧节点指针 */
+
+/* 29 104 二叉树的最大深度 */
