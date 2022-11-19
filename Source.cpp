@@ -699,7 +699,7 @@ int main() {
 
 /* 11 167 两数之和--有序数组 */
 // 常量级额外空间
-#if 0
+#if 1
 class Solution {
 public:
     std::vector<int> twoSum(std::vector<int>& nums, int target) {
