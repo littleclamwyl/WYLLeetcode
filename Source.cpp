@@ -1148,17 +1148,493 @@ int main() {
 
 
 
+/* Struct test */
+// error
+#if 0
 
+struct ListNode {
+    int val;
+    ListNode* pNext;
+};
 
 int main() {
+    ListNode* node1 = {};
+    
+    node1->val = 10;
+    node1->pNext = nullptr;
 
-    std::cout << "Sunday will be better" << std::endl;
-    std::cout << "Tomorrow will be better" << std::endl;
-    std::cout << "Monday will be better" << std::endl;
+    std::cout << "Value is: " << node1->val << std::endl;
+
+}
 
 
+
+
+
+#endif
+
+
+
+/* 锁和多线程 */
+
+
+/* 30 34 在排序数组中查找元素的第一个和最后一个位置 */
+
+/* 31 42 接雨水 */
+#if 0
+class Solution {
+public:
+    int trap(std::vector<int>& height) {
+
+        std::vector<int>::size_type n = height.size();
+        std::vector<int> pre(n, 0);
+        std::vector<int> back(n, 0);
+
+        int tmp = height[0];
+        for (int i = 0; i < n; i++) {
+            tmp = tmp > height[i] ? tmp : height[i];
+            pre[i] = tmp;
+        }
+
+        tmp = height[n-1];
+        for (int i = n - 1; i >= 0; i--) {
+            tmp = tmp > height[i] ? tmp : height[i];
+            back[i] = tmp;
+        }
+
+        int res = 0;
+
+        for (int i = 0; i < n; i++) {
+            res += std::min(pre[i], back[i]) - height[i];
+        }
+
+        return res;
+    }
+};
+
+int main() {
+    Solution sol;
+    std::vector<int> data1{ 0,1,0,2,1,0,1,3,2,1,2,1 };
+    int res1 = sol.trap(data1);
+    std::cout << "Value: " << res1 << std::endl;
+
+
+}
+
+
+#endif
+
+
+/* 32 11 盛最多水的容器 */
+// 双指针，移动left or right?
+#if 0
+class Solution {
+public:
+    int maxArea(std::vector<int>& height) {
+
+        unsigned int n = height.size();
+        int left = 0;
+        int right = n - 1;
+
+        int res = 0;
+        while (left < right) {
+            int tmp = 0;
+            tmp = (right - left) * std::min(height[left], height[right]);
+            res = res > tmp ? res : tmp;
+
+            if (height[left] > height[right]) {
+                right--;
+            }
+            else {
+                left++;
+            }
+        }
+        
+        return res;
+    }
+};
+
+int main() {
+    Solution sol;
+    std::vector<int> data1{ 1,8,6,2,5,4,8,3,7 };
+    int res1 = sol.maxArea(data1);
+    std::cout << "Value: " << res1 << std::endl;
+    
+    
+}
+
+
+#endif 
+
+
+
+/* 33 704 二分查找 */
+// dichotomy
+#if 0
+class Solution {
+public:
+    int search(std::vector<int>& nums, int target) {
+
+        std::vector<int>::size_type n = nums.size();
+        int left = 0;
+        int right = n - 1;
+        int mid = 0;
+        // [left, right]
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (nums[mid] >= target) {
+                right = mid - 1;
+            }
+            else {
+                left = mid + 1;
+            }
+        }
+
+        if ((left == n) || (nums[left] != target)) {
+            return -1;
+        }
+        else {
+            return right + 1;
+        }
+               
+
+    }    
+};
+
+int main() {
+    Solution sol;
+    std::vector<int> data1{ -1,0,3,5,9,12 };
+    int target1 = 9;
+    int res1 = sol.search(data1, target1);
+    std::cout << "Value: " << res1 << std::endl;
+
+    std::vector<int> data2{ -1 };
+    int target2 = 2;
+    int res2 = sol.search(data2, target2);
+    std::cout << "Value: " << res2 << std::endl;
+
+
+}
+
+
+#endif
+
+
+/* explicit关键字 */
+// 禁止隐式构造
+#if 0
+class Point {
+public:
+    int x, y;
+    explicit Point(int x = 0, int y = 0)
+        : x(x), y(y) {}
+};
+
+void displayPoint(const Point& p)
+{
+    std::cout << "(" << p.x << ","
+        << p.y << ")" << std::endl;
+}
+
+
+void swap(int& a, int& b) noexcept {
+    int tmp = 0;
+    tmp = a;
+    a = b;
+    b = tmp;
+}
+
+
+int main()
+{
+    displayPoint(Point(1));
+    Point p(1);
+
+    int a = 10;
+    int b = 200;
+    swap(a, b);
+
+    std::cout << "a = " << a << std::endl;
+    std::cout << "b = " << b << std::endl;
+
+}
+
+
+
+
+#endif
+
+
+
+/* 泛型算法 */
+//
+
+#if 0
+int main() {
+    std::vector<int> data1{ 1,2,3,4,5,6,7,8,9,11 };
+    std::string s2{ "heelo"};
+
+    std::vector<int>::iterator it = std::find(data1.begin(), data1.end(), 5);
+    std::cout << "Value: " << *it << std::endl;
+
+
+
+}
+
+
+#endif
+
+
+
+/* 模板 */
+// 如上就是最简单的类模板，实例化类模板必须要指定类型，编译器无法为类模板自动推导类型
+
+// 几个需要注意的点
+// １．类模板和函数模板都必须定义在.h头文件中
+// ２．模板的实例化类型确定是在编译期间
+// ３．只是模板写好了，编译一般不会很多出错，出错一般会在实例化编译之后
+// ４．模板实例化只会实例化用到的部分，没有用到的部分将不会被实例化
+
+// 函数只有全特化
+// 类有全特化和偏特化，先有模板，然后才可以全特化？？？
+#if 0
+
+template<class T>
+class A {
+public:
+    explicit A(T val):t(val){}
+    T add(T x) {
+        return t + x;
+    }
+
+private:
+    T t;
+};
+
+template<>
+class A<int> {
+
+};
+
+
+template <>
+int compare<const char*>(const char* left, const char* right) {
+    return left == right;
+}
+
+
+// 函数模板
+template <class T>
+int compare(const T left, const T right)
+{
+    std::cout << "in template<class T>..." << std::endl;
+    return (left - right);
+}
+
+
+//  一个特化的函数模版
+//template < >
+//int compare<const char*>(const char* left, const char* right)
+//{
+//    std::cout << "in special template< >..." << std::endl;
+//
+//    return strcmp(left, right);
+//}
+int main() {
+    A<int> a(10);
+    std::cout << a.add(5) << std::endl;
     return 0;
 }
 
 
+#endif
+
+
+
+/* 归并排序 */
+#if 0
+
+class Solution {
+public:
+    void mergeSort(std::vector<int>& nums, int l, int r){
+
+        if (l >= r) return;
+        int mid = l + (r - l) / 2;
+
+        mergeSort(nums, l, mid);
+        mergeSort(nums, mid + 1, r);
+        merge(nums, l, mid, r);
+
+
+    }
+
+    void merge(std::vector<int>& nums , int l, int mid, int r) {
+        std::vector<int> tmp(r - l + 1, 0);
+        // 合并两个数组
+        // [l, l+1, l+2, ..., mid]
+        // [mid+1, mid+2, ..., r]
+        int i = l;
+        int j = mid + 1;
+        int k = 0;
+        while (i <= mid && j <= r) {
+            if (nums[i] <= nums[j]) {
+                tmp[k] = nums[i];
+                k++;
+                i++;
+            }
+            else {
+                tmp[k] = nums[j];
+                k++;
+                j++;
+            }
+        }
+
+        // 假设其中一个数组提前合并完了
+        if (i > mid) {
+            while (k < tmp.size()) {
+                tmp[k] = nums[j];
+                j++;
+                k++;
+            }
+        }
+
+        if (j > r) {
+            while (k < tmp.size()) {
+                tmp[k] = nums[i];
+                k++;
+                i++;
+            }
+        }
+
+
+        for (int i = l; i <= r; i++) {
+            nums[i] = tmp[i - l];
+        }
+
+
+    }
+};
+
+
+int main() {
+
+    //Solution sol;
+    //std::vector<int> data1{ 7,6,5,15,3,2,6,13,2,4 };
+    //int n = data1.size();
+    //for (int i = 0; i < n; i++) {
+    //    std::cout << data1[i] << "->";
+    //}
+    //std::cout << std::endl;
+
+    //sol.mergeSort(data1, 0, n - 1);
+
+    //for (int i = 0; i < n; i++) {
+    //    std::cout << data1[i] << "->";
+    //}
+
+
+
+    Solution sol;
+    std::vector<int> data1{ 8,7,6,5,4,3,2,2,1 };
+    int n = data1.size();
+    for (int i = 0; i < n; i++) {
+        std::cout << data1[i] << "->";
+    }
+    std::cout << std::endl;
+
+    sol.mergeSort(data1, 0, n - 1);
+
+    for (int i = 0; i < n; i++) {
+        std::cout << data1[i] << "->";
+    }
+}
+
+#endif
+
+
+
+
+/* 快速排序 */
+#if 0
+
+class Solution {
+public:
+
+    static void quickSort(std::vector<int>& nums, int startIndex, int endIndex) {
+
+        if (startIndex >= endIndex) return;
+
+        int l = startIndex;
+        int r = endIndex;
+        int pivot = nums[l];
+
+        // 一旦l >= r, 说明这个pivot已经排好序了，左边的都比它小，右边的都比它大
+        while (l < r) {
+            while (l < r && pivot <= nums[r]) {
+                r--;
+            }
+            if (l < r) {
+                nums[l] = nums[r];
+                l++;
+            }
+            while (l < r && pivot >= nums[l]) {
+                l++;
+            }
+            if (l < r) {
+                nums[r] = nums[l];
+                r--;
+            }
+
+        }
+
+        nums[l] = pivot;
+        quickSort(nums, startIndex, r - 1);
+        quickSort(nums, r + 1, endIndex);
+
+    }
+
+};
+
+int main() {
+    std::vector<int> data1{ 7,6,5,15,3,2,6,13,2,4 };
+    int n = data1.size();
+    for (int i = 0; i < n; i++) {
+        std::cout << data1[i] << "->";
+    }
+    std::cout << std::endl;
+
+    Solution::quickSort(data1,0, n-1);
+
+    for (int i = 0; i < n; i++) {
+        std::cout << data1[i] << "->";
+    }
+}
+
+#endif 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#if 1
+
+#endif
 
